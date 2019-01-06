@@ -46,6 +46,7 @@ public class Viewport {
         int right = (int)(left + (objectWidth * pixelsPerMetreX));
         int bottom = (int)(top + (objectHeight * pixelsPerMetreY));
         convertedRect.set(left, top, right, bottom);
+
         return convertedRect;
     }
 
@@ -55,6 +56,7 @@ public class Viewport {
 
         convertedPoint.x = left;
         convertedPoint.y = top;
+
         return convertedPoint;
     }
 
@@ -63,8 +65,8 @@ public class Viewport {
         boolean clipped = true;
 
         if (objectX - objectWidth < currentViewportWorldCentre.x + (metresToShowX / 2)) {
-            if (objectX + objectWidth> currentViewportWorldCentre.x - (metresToShowX / 2)) {
-                if (objectY - objectHeight< currentViewportWorldCentre.y + (metresToShowY / 2)) {
+            if (objectX + objectWidth > currentViewportWorldCentre.x - (metresToShowX / 2)) {
+                if (objectY - objectHeight < currentViewportWorldCentre.y + (metresToShowY / 2)) {
                     if (objectY + objectHeight > currentViewportWorldCentre.y - (metresToShowY / 2)){
                         clipped = false;
                     }
