@@ -34,4 +34,11 @@ public class Viewport {
 
         // End of viewport class
     }
+
+    public void setWorldCentre(float x, float y) {
+        currentViewportWorldCentre.x = x;
+        currentViewportWorldCentre.y = y;
+    }
+
+    
 }
