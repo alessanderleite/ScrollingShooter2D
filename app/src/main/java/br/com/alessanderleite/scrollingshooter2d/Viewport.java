@@ -57,5 +57,20 @@ public class Viewport {
         convertedPoint.y = top;
         return convertedPoint;
     }
-    
+
+    public boolean clipObjects(float objectX, float objectY, float objectWidth, float objectHeight) {
+
+        boolean clipped = true;
+
+        if (objectX - objectWidth < currentViewportWorldCentre.x + (metresToShowX / 2)) {
+            if (objectX + objectWidth> currentViewportWorldCentre.x - (metresToShowX / 2)) {
+                if (objectY - objectHeight< currentViewportWorldCentre.y + (metresToShowY / 2)) {
+                    if (objectY + objectHeight > currentViewportWorldCentre.y - (metresToShowY / 2)){
+                        clipped = false;
+                    }
+                }
+            }
+        }
+        return  clipped;
+    }
 }
