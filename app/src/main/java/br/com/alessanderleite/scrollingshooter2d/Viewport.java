@@ -40,5 +40,12 @@ public class Viewport {
         currentViewportWorldCentre.y = y;
     }
 
-    
+    public RectF worldToScreen(float objectX, float objectY, float objectWidth, float objectHeight) {
+        int left = (int)(screenCentreX - ((currentViewportWorldCentre.x - objectX) * pixelsPerMetreX));
+        int top = (int)(screenCentreY - ((currentViewportWorldCentre.y - objectY) * pixelsPerMetreY));
+        int right = (int)(left + (objectWidth * pixelsPerMetreX));
+        int bottom = (int)(top + (objectHeight * pixelsPerMetreY));
+        convertedRect.set(left, top, right, bottom);
+        return convertedRect;
+    }
 }
