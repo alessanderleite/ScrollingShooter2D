@@ -22,24 +22,19 @@ public class Ship {
 
     // This will hold the pixels per second speed that the ship can move at
     private float speed = 0;
-    //private final float MAX_SPEED = 80;
-    //private final float ACCELERATION_RATE = 40;
-    //private final float BREAK_RATE = 30;
 
     /*
-    These next two variables control the actual movement rate per frame
-    their values are set each frame based on speed and heading
+    * These next two variables control the actual movement rate per frame
+    * their values are set each frame based on speed and heading
     */
 
     private float horizontalVelocity;
     private float verticalVelocity;
 
     /*
-    How fast does the ship rotate?
-    1 complete circle per second
+    * How fast does the ship rotate?
+    * 1 complete circle per second
     */
-
-    //private final float ROTATION_SPEED = 200;
 
     // Which ways can the ship move
     public final int STOPPING = 0;
@@ -49,4 +44,53 @@ public class Ship {
 
     // Is the ship moving and in which direction
     private int shipMoving = STOPPING;
+
+    /*
+    * This the the constructor method
+    * When we create an object from this class we will pass
+    * in the screen width and height
+    */
+
+    public Ship() {
+
+        float length = 2.5f;
+        float width = 1.25f;
+
+        a = new PointF();
+        b = new PointF();
+        c = new PointF();
+        centre = new PointF();
+
+        centre.x = 50;
+        centre.y = 50;
+
+        a.x = centre.x;
+        a.y = centre.y - length / 2;
+
+        b.x = centre.x - width / 2;
+        b.y = centre.y + length / 2;
+
+        c.x = centre.x + width / 2;
+        c.y = centre.y + length / 2;
+    }
+
+    public PointF getA() {
+        return a;
+    }
+
+    public PointF getB() {
+        return b;
+    }
+
+    public PointF getC() {
+        return c;
+    }
+
+    public PointF getCentre() {
+        return centre;
+    }
+
+    public float getFacingAngle() {
+        return facingAngle;
+    }
 }
