@@ -93,4 +93,32 @@ public class Ship {
     public float getFacingAngle() {
         return facingAngle;
     }
+
+    public void bump() {
+
+        speed = 0;
+
+        // Move back
+        centre.x = centre.x - horizontalVelocity * 2;
+        centre.y = centre.y - verticalVelocity * 2;
+
+        a.x = a.x - horizontalVelocity * 2;
+        a.y = a.y - verticalVelocity * 2;
+
+        b.x = b.x - horizontalVelocity * 2;
+        b.y = b.y - verticalVelocity * 2;
+
+        c.x = c.x - horizontalVelocity * 2;
+        c.y = c.y - verticalVelocity * 2;
+    }
+
+    /*
+    * This method will be used to change/set if the
+    * ship is rotating left, right or thrusting
+    */
+
+    public void setMovementState(int state) {
+        shipMoving = state;
+    }
+    
 }
