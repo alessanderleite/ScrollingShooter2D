@@ -120,5 +120,79 @@ public class Ship {
     public void setMovementState(int state) {
         shipMoving = state;
     }
-    
+
+    /*
+    * This update method will be called from update in HeadingAndRotationView
+    * It determines if the player ship needs to move and changes the coordinates
+    * and rotation when necessary.
+    */
+
+    public void  update(long fps) {
+
+        final float ROTATION_SPEED = 200;
+        final float BREAK_RATE = 30;
+
+        /*
+        * Where are we facing ate the moment
+        * Then when we rotate we can work out
+        * by how much
+        */
+        float previusFA = facingAngle;
+
+        if (shipMoving == LEFT) {
+
+            facingAngle = facingAngle - ROTATION_SPEED / fps;
+
+            if (facingAngle < 1) {
+                facingAngle = 360;
+            }
+        }
+
+        if (shipMoving == RIGHT) {
+
+            facingAngle = facingAngle + ROTATION_SPEED / fps;
+
+            if (facingAngle > 360) {
+                facingAngle = 1;
+            }
+        }
+
+        if (shipMoving == THRUSTING) {
+
+            final float MAX_SPEED = 80;
+            final float ACCELERATION_RATE = 40;
+
+            /*
+            * facingAngle can be any angle between 1 and 360 degrees
+            * the Math.toRadians method simply converts the more conventional
+            * degree measurements to radians which are required by
+            * the cos and sin methods.
+            */
+
+            if (speed < MAX_SPEED) {
+                speed = speed + ACCELERATION_RATE / fps;
+            }
+
+            horizontalVelocity = (float)(Math.cos(Math.toRadians(facingAngle)));
+            verticalVelocity = (float)(Math.sin(Math.toRadians(facingAngle)));
+        }
+
+        centre.x = centre.x + horizontalVelocity * speed / fps;
+        centre.y = centre.y + verticalVelocity * speed / fps;
+
+        a.x = a.x + horizontalVelocity * speed / fps;
+        a.y = a.y + verticalVelocity * speed / fps;
+
+        b.x = b.x + horizontalVelocity * speed / fps;
+        b.y = b.y + verticalVelocity * speed / fps;
+
+        c.x = c.x + horizontalVelocity * speed / fps;
+        c.y = c.y + verticalVelocity * speed / fps;
+
+        if (shipMoving != THRUSTING) {
+            if (speed > 0) {
+                speed = speed - (BREAK_RATE / fps);
+            }
+        }
+    }
 }
