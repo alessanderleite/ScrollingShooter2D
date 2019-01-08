@@ -194,5 +194,53 @@ public class Ship {
                 speed = speed - (BREAK_RATE / fps);
             }
         }
+
+        /*
+        * Now rotate each of the three points by
+        * the change in rotation this frame
+        * facingAngle - previousFA
+        */
+
+        float tempX;
+        float tempY;
+
+        // rotate point a
+        a.x = a.x - centre.x;
+        a.y = a.y - centre.y;
+
+        tempX = (float)(a.x * Math.cos(Math.toRadians(facingAngle - previusFA)) -
+                a.y * Math.sin(Math.toRadians(facingAngle - previusFA)));
+
+        tempY = (float)(a.x * Math.sin(Math.toRadians(facingAngle - previusFA)) +
+                a.y * Math.cos(Math.toRadians(facingAngle - previusFA)));
+
+        a.x = tempX + centre.x;
+        a.y = tempY + centre.y;
+
+        // rotate point b
+        b.x = b.x - centre.x;
+        b.y = b.y - centre.y;
+
+        tempX = (float)(b.x * Math.cos(Math.toRadians(facingAngle - previusFA)) -
+                b.y * Math.sin(Math.toRadians(facingAngle - previusFA)));
+
+        tempY = (float)(b.x * Math.sin(Math.toRadians(facingAngle - previusFA)) +
+                b.y * Math.cos(Math.toRadians(facingAngle - previusFA)));
+
+        b.x = tempX + centre.x;
+        b.y = tempY + centre.y;
+
+        // rotate point c
+        c.x = c.x - centre.x;
+        c.y = c.y - centre.y;
+
+        tempX = (float)(c.x * Math.cos(Math.toRadians(facingAngle - previusFA)) -
+                c.y * Math.sin(Math.toRadians(facingAngle - previusFA)));
+
+        tempY = (float)(c.x * Math.sin(Math.toRadians(facingAngle - previusFA)) +
+                c.y * Math.cos(Math.toRadians(facingAngle - previusFA)));
+
+        c.x = tempX + centre.x;
+        c.y = tempY + centre.y;
     }
 }
