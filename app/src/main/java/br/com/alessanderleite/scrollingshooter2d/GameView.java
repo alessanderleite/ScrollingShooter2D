@@ -1,14 +1,19 @@
 package br.com.alessanderleite.scrollingshooter2d;
 
 import android.content.Context;
+import android.content.res.AssetFileDescriptor;
+import android.content.res.AssetManager;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.PointF;
 import android.graphics.RectF;
+import android.media.AudioManager;
 import android.media.SoundPool;
+import android.util.Log;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 
+import java.io.IOException;
 import java.util.Random;
 
 public class GameView extends SurfaceView implements Runnable {
@@ -81,8 +86,40 @@ public class GameView extends SurfaceView implements Runnable {
     // Our neat viewport/camera/clipping machine
     Viewport vp;
 
-    public GameView(Context context) {
+    // The constructor
+    public GameView(Context context, int screenX, int screenY) {
+
+        // The next line of code asks the
+        // SurfaceView class to set up our object.
         super(context);
+
+        // Initialize ourHolder and paint objects
+        ourHolder = getHolder();
+        paint = new Paint();
+
+        // Initialize the Viewport
+        vp = new Viewport(screenX, screenY);
+
+
+        hud = new HUD(screenX, screenY);
+
+        // This SoundPool is deprecated but don't worry
+        soundPool = new SoundPool(10, AudioManager.STREAM_MUSIC, 0);
+
+        try {
+            // Create objects of the 2 required classes
+            AssetManager assetManager = context.getAssets();
+            AssetFileDescriptor descriptor;
+
+            // Load our fx in memory ready for use
+            descriptor = assetManager.openFd("damagebuilding.ogg");
+            damageBuildingID = soundPool.load(descriptor,0);
+        } catch (IOException e) {
+            // Print an error message to the console
+            Log.e("error", "failed to load sound files");
+        }
+
+        prepareLevel();
     }
 
     @Override
@@ -92,5 +129,5 @@ public class GameView extends SurfaceView implements Runnable {
 }
 
 class HUD {
-    
+
 }
