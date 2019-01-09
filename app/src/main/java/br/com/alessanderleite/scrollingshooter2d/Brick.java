@@ -83,4 +83,44 @@ public class Brick {
             }
         }
     }
+
+    public void destroy() {
+        destroyed = true;
+    }
+
+    public boolean isDestroyed() {
+        return destroyed;
+    }
+
+    public void clip() {
+        clipped = true;
+    }
+
+    public void unClip() {
+        clipped = false;
+    }
+
+    public boolean isClipped() {
+        return clipped;
+    }
+
+    public RectF getRect() {
+        return  this.rect;
+    }
+
+    public boolean getLeft() {
+        return isLeft;
+    }
+
+    public int getColor() {
+        return color;
+    }
+
+    public boolean getRight() {
+        return isRight;
+    }
+
+    public boolean getTop() {
+        return isTop;
+    }
 }
