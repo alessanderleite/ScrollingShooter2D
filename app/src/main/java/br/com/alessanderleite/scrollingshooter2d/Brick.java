@@ -52,4 +52,35 @@ public class Brick {
             color = Color.argb(255,0,0,0);
         }
     }
+
+    public void update() {
+
+        // Assign a color
+        if (!destroyed) {
+            if (random.nextInt(6000) == 0) {
+                if (random.nextInt(9) == 0) {
+                    // Vary the alpha for effect
+                    int alpha = random.nextInt(256);
+                    color = Color.argb(alpha,255,255,0);
+                } else {
+                    color = Color.argb(255,0,0,0);
+                }
+            }
+        } else { // fire
+            int whichColor = random.nextInt(3);
+            switch (whichColor) {
+
+                case 0:
+                    color = Color.argb(255,255,0,0);
+                    break;
+
+                case 1:
+                    color = Color.argb(255,245,143,10);
+                    break;
+
+                case 2:
+                    color = Color.argb(255,250,250,10);
+            }
+        }
+    }
 }
