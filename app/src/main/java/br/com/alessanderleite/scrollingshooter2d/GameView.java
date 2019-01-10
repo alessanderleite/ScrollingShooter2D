@@ -213,6 +213,62 @@ public class GameView extends SurfaceView implements Runnable {
         }
     }
 
+    private void update() {
+
+        // Reset the players location as the world centre of the viewport
+        // if game is playing
+        vp.setWorldCentre(player.getCentre().x, player.getCentre().y);
+
+        // Clip all off screen bricks
+        for (int i = 0; i < numBricks; i++) {
+            if (vp.clipObjects(bricks[i].getRect().left,
+                    bricks[i].getRect().top, 1, 1)) {
+
+                bricks[i].clip();
+            } else {
+                bricks[i].unClip();
+            }
+        }
+
+        player.update(fps);
+
+        // Update all the player bullets if active
+        for (int  i = 0; i < playerBullets.length; i++) {
+            if (playerBullets[i].getStatus()) {
+                playerBullets[i].update(fps);
+            }
+        }
+
+        // Have the player's bullets hit a building?
+        // Update all the player bullets if active
+        for (int i = 0; i < maxPlayerBullets; i++) {
+            if (playerBullets[i].getStatus()) {
+                for (int j = 0; j < numBricks; j++) {
+                    if (!bricks[j].isClipped()) {
+
+                        // Only process this brick if not destroyed
+                        if (!bricks[j].isDestroyed()) {
+                            if (bricks[j].getRect().contains(
+                                    playerBullets[i].getPoint().x,
+                                    playerBullets[i].getPoint().y)){
+
+                                playerBullets[i].setInactive();;
+                                soundPool.play(damageBuildingID, 1, 1, 0, 0, 1);
+                                bricks[j].destroy();
+
+                                int chainReactionSize = random.nextInt(6);
+                                for (int k = 1; k < chainReactionSize; k++) {
+                                    bricks[j+k].destroy();
+                                    bricks[j-k].destroy();
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+
     class HUD {
 
         Rect left;
