@@ -11,6 +11,7 @@ import android.graphics.RectF;
 import android.media.AudioManager;
 import android.media.SoundPool;
 import android.util.Log;
+import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 
@@ -179,5 +180,37 @@ public class GameView extends SurfaceView implements Runnable {
             currentButtonList.add(shoot);
             currentButtonList.add(pause);
         }
-    }
-}
+
+        public void handleInput(MotionEvent motionEvent) {
+
+            int x = (int) motionEvent.getX(0);
+            int y = (int) motionEvent.getY(0);
+
+            switch (motionEvent.getAction() & MotionEvent.ACTION_MASK) {
+
+                case MotionEvent.ACTION_DOWN:
+                    if (right.contains(x,y)) {
+                        player.setMovementState(player.RIGHT);
+                    } else if (left.contains(x,y)) {
+                        player.setMovementState(player.LEFT);
+                    } else if (thrust.contains(x,y)) {
+                        player.setMovementState(player.THRUSTING);
+                    } else if (shoot.contains(x,y)) {
+                        playerBullets[nextPlayerBullet].shoot(
+                                player.getA().x,player.getA().y,player.getFacingAngle());
+                        nextPlayerBullet++;
+                        if (nextPlayerBullet == maxPlayerBullets) {
+                            nextPlayerBullet = 0;
+                        }
+                        soundPool.play(shootID, 1, 1, 0, 0, 1);
+                    } else if (pause.contains(x,y)) {
+                        paused = !paused;
+                    }
+                    break;
+
+                case MotionEvent.ACTION_UP:
+                    player.setMovementState(player.STOPPING);
+            }
+        }
+    } // End of HUB inner class
+} // End of GameView
