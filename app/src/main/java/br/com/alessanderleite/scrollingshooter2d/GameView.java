@@ -125,6 +125,69 @@ public class GameView extends SurfaceView implements Runnable {
         prepareLevel();
     }
 
+    private void prepareLevel() {
+
+        player = new Ship();
+
+        // Initialize the playerBullets array
+        for (int i = 0; i < playerBullets.length; i++) {
+            playerBullets[i] = new Bullet();
+        }
+
+        // Reset the players location as the world centre of the viewport
+        // if game is playing
+        vp.setWorldCentre(player.getCentre().x, player.getCentre().y);
+
+        Random random = new Random();
+        int gapFromLastBuilding;
+        int maxGap = 25;
+        int buildingWidth;
+        int maxBuildingWidth = 10;
+        int buildingHeight;
+        int maxBuildingHeight = 85;
+
+        for (worldWidth = 0;
+                worldWidth < targetWorldWidth;
+                worldWidth += buildingWidth + gapFromLastBuilding) {
+
+            buildingWidth = random.nextInt(maxBuildingWidth) + 3;
+            buildingHeight = random.nextInt(maxBuildingHeight) + 1;
+            gapFromLastBuilding = random.nextInt(maxGap) + 1;
+
+            for (int x = 0; x < buildingWidth; x++) {
+                for (int y = groundLevel; y > groundLevel - buildingHeight; y--) {
+
+                    boolean isLeft = false;
+                    boolean isRight = false;
+                    boolean isTop = false;
+
+                    // Is this brick on left, right or top?
+                    if (x == 0) {
+                        isLeft = true;
+                    }
+                    if (x == buildingWidth - 1) {
+                        isRight = true;
+                    }
+                    if (y == (groundLevel - buildingHeight) + 1) {
+                        isTop = true;
+                    }
+
+                    bricks[numBricks] = new Brick(x + worldWidth, y,
+                            isLeft, isRight, isTop);
+
+                    numBricks++;
+                }
+            }
+        }
+
+        // Instantiate some stars
+        for (int i = 0; i < 500; i++) {
+
+            stars[i] = new Star(targetWorldWidth, targetWorldHeight);
+            numStars++;
+        }
+    }
+
     @Override
     public void run() {
 
