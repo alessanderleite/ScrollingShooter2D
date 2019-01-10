@@ -6,6 +6,7 @@ import android.content.res.AssetManager;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.PointF;
+import android.graphics.Rect;
 import android.graphics.RectF;
 import android.media.AudioManager;
 import android.media.SoundPool;
@@ -14,6 +15,7 @@ import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Random;
 
 public class GameView extends SurfaceView implements Runnable {
@@ -113,7 +115,7 @@ public class GameView extends SurfaceView implements Runnable {
 
             // Load our fx in memory ready for use
             descriptor = assetManager.openFd("damagebuilding.ogg");
-            damageBuildingID = soundPool.load(descriptor,0);
+            damageBuildingID = soundPool.load(descriptor, 0);
         } catch (IOException e) {
             // Print an error message to the console
             Log.e("error", "failed to load sound files");
@@ -126,8 +128,56 @@ public class GameView extends SurfaceView implements Runnable {
     public void run() {
 
     }
-}
 
-class HUD {
+    class HUD {
 
+        Rect left;
+        Rect right;
+        Rect thrust;
+        Rect shoot;
+        Rect pause;
+
+        // create an array of buttons for the draw method
+        public ArrayList<Rect> currentButtonList = new ArrayList<>();
+
+        HUD(int screenWidth, int screenHeight) {
+
+            // Configure the player buttons
+            int buttonWidth = screenWidth / 8;
+            int buttonHeight = screenHeight / 7;
+            int buttonPadding = screenWidth / 80;
+
+            left = new Rect(buttonPadding,
+                    screenHeight - buttonHeight - buttonPadding,
+                    buttonWidth,
+                    screenHeight - buttonPadding);
+
+            right = new Rect(buttonWidth + buttonPadding,
+                    screenHeight - buttonHeight - buttonPadding,
+                    buttonWidth + buttonPadding + buttonWidth,
+                    screenHeight - buttonPadding);
+
+            thrust = new Rect(screenWidth - buttonWidth - buttonPadding,
+                    screenHeight - buttonHeight - buttonPadding - buttonHeight - buttonPadding,
+                    screenWidth - buttonPadding,
+                    screenHeight - buttonPadding - buttonHeight - buttonPadding);
+
+            shoot = new Rect(screenWidth - buttonWidth - buttonPadding,
+                    screenHeight - buttonHeight - buttonPadding,
+                    screenWidth - buttonPadding,
+                    screenHeight - buttonPadding);
+
+            pause = new Rect(screenWidth - buttonPadding - buttonWidth,
+                    buttonPadding,
+                    screenWidth - buttonPadding,
+                    buttonPadding + buttonHeight);
+
+            // Add the rect objects in the same order as the static final values
+            currentButtonList.add(left);
+            currentButtonList.add(right);
+            currentButtonList.add(thrust);
+            currentButtonList.add(shoot);
+            currentButtonList.add(pause);
+        }
+    }
 }
