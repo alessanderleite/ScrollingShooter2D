@@ -498,6 +498,36 @@ public class GameView extends SurfaceView implements Runnable {
         }
     }
 
+    // If SpaceInvadersActivity is paused/stopped
+    // shutdown our thread.
+    public void pause() {
+        playing = false;
+        try {
+            gameThread.join();
+        } catch (InterruptedException e) {
+            Log.e("Error:", "joining thread");
+        }
+    }
+
+    // If SpaceInvadersActivity is started then
+    // start our thread.
+    public void resume() {
+        playing = true;
+        gameThread = new Thread(this);
+        gameThread.start();
+    }
+
+    // The SurfaceView class implements onTouchListener
+    // So we can override this method and detect screen touches.
+
+
+    @Override
+    public boolean onTouchEvent(MotionEvent motionEvent) {
+
+        hud.handleInput(motionEvent);
+        return true;
+    }
+
     class HUD {
 
         Rect left;
