@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.res.AssetFileDescriptor;
 import android.content.res.AssetManager;
 import android.graphics.Canvas;
+import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.PointF;
 import android.graphics.Rect;
@@ -350,6 +351,53 @@ public class GameView extends SurfaceView implements Runnable {
                 player.getC().x > worldWidth) {
 
             player.bump();
+        }
+    }
+
+    private void draw() {
+        // Make sure our drawing surface is valid or we crash
+        if (ourHolder.getSurface().isValid()) {
+            // Lock the canvas ready to draw
+            canvas = ourHolder.lockCanvas();
+
+            // Draw the background color
+            canvas.drawColor(Color.argb(255,0,0,0));
+
+            // Draw the game world ceiling
+            paint.setColor(Color.argb(255,255,255,255));
+            convertedRect = vp.worldToScreen(0,0,targetWorldWidth,1);
+
+            canvas.drawRect(convertedRect, paint);
+
+            // Draw the left game world barrier
+            convertedRect = vp.worldToScreen(0,0,1,targetWorldHeight);
+
+            canvas.drawRect(convertedRect, paint);
+
+            // Draw the right game world barrier
+            convertedRect = vp.worldToScreen(targetWorldWidth,0,1,targetWorldHeight);
+
+            canvas.drawRect(convertedRect, paint);
+
+            // Draw stars if visible
+            // Update the stars
+            paint.setColor(Color.argb(255, 255, 255,255));
+            for (int i = 0; i < numStars; i++) {
+
+                if (stars[i].getVisibility()) {
+                    tempPointF = vp.worldToScreenPoint(stars[i].getX(), stars[i].getY());
+                    canvas.drawPoint(tempPointF.x, tempPointF.y, paint);
+                }
+            }
+
+            // Draw the bricks if visible
+            for (int i = 0; i < numBricks; i++) {
+                if (!bricks[i].isClipped()) {
+
+                    // Draw the bricks
+                    // Choose the brush color for drawing
+                }
+            }
         }
     }
 
