@@ -252,7 +252,7 @@ public class GameView extends SurfaceView implements Runnable {
                                     playerBullets[i].getPoint().x,
                                     playerBullets[i].getPoint().y)){
 
-                                playerBullets[i].setInactive();;
+                                playerBullets[i].setInactive();
                                 soundPool.play(damageBuildingID, 1, 1, 0, 0, 1);
                                 bricks[j].destroy();
 
@@ -266,6 +266,90 @@ public class GameView extends SurfaceView implements Runnable {
                     }
                 }
             }
+        }
+
+        // set bullets inactive when they go out of view
+        // Clip all off screen bricks
+        for (int i = 0; i < maxPlayerBullets; i++) {
+            if (playerBullets[i].getStatus()) {
+
+                if(playerBullets[i].getPoint().x < 0){
+                    playerBullets[i].setInactive();
+                }
+
+                else if(playerBullets[i].getPoint().x > targetWorldWidth){
+                    playerBullets[i].setInactive();
+                }
+
+                else if(playerBullets[i].getPoint().y < 0){
+                    playerBullets[i].setInactive();
+                }
+
+                else if(playerBullets[i].getPoint().y > targetWorldHeight){
+                    playerBullets[i].setInactive();
+                }
+            }
+        }
+
+
+        // Update the stars
+        for (int i = 0; i < numStars; i++) {
+            stars[i].update();
+        }
+
+        // Update the bricks
+        for (int i = 0; i < numBricks; i++) {
+            if (!bricks[i].isClipped()) {
+                bricks[i].update();
+            }
+        }
+
+
+        // Has the ship collided with a top, left or right brick?
+        // that isn't destroyed
+        for (int i = 0; i < numBricks; i++) {
+            if (!bricks[i].isClipped() && !bricks[i].isDestroyed()) {
+                if (bricks[i].getRect().contains(player.getA().x, player.getA().y) ||
+                        bricks[i].getRect().contains(player.getB().x, player.getB().y) ||
+                        bricks[i].getRect().contains(player.getC().x, player.getC().y)) {
+
+                    player.bump();
+                }
+            }
+        }
+
+        // Has the ship collided with the floor?
+        if (player.getA().y > groundLevel ||
+                player.getB().y > groundLevel ||
+                player.getC().y > groundLevel) {
+
+            player.bump();
+        }
+
+
+        // Has the ship collided with the game world ceiling?
+        if (player.getA().y < 0 ||
+                player.getB().y < 0 ||
+                player.getC().y < 0) {
+
+            player.bump();
+        }
+
+        // Has the ship collided with the game world left?
+        if (player.getA().x < 0 ||
+                player.getB().x < 0 ||
+                player.getC().x < 0) {
+
+            player.bump();
+
+        }
+
+        // Has the ship collided with the game world right?
+        if (player.getA().x > worldWidth ||
+                player.getB().x > worldWidth ||
+                player.getC().x > worldWidth) {
+
+            player.bump();
         }
     }
 
