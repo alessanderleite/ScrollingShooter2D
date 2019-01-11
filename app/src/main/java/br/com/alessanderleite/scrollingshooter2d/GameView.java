@@ -397,8 +397,104 @@ public class GameView extends SurfaceView implements Runnable {
 
                     // Draw the bricks
                     // Choose the brush color for drawing
+                    paint.setColor(Color.argb(255,190,190,190));
+                    if (bricks[i].getLeft()) {
+                        canvas.drawLine(
+                                convertedRect.left,
+                                convertedRect.top,
+                                convertedRect.left,
+                                convertedRect.bottom,
+                                paint
+                        );
+                    }
+
+                    if (bricks[i].getRight()) {
+                        canvas.drawLine(
+                                convertedRect.right,
+                                convertedRect.top,
+                                convertedRect.right,
+                                convertedRect.bottom,
+                                paint
+                        );
+                    }
+
+                    if (bricks[i].getTop()) {
+                        canvas.drawLine(
+                                convertedRect.left,
+                                convertedRect.top,
+                                convertedRect.right,
+                                convertedRect.top,
+                                paint
+                        );
+                    }
                 }
             }
+
+            tempPointF = vp.worldToScreenPoint(player.getA().x, player.getA().y);
+            convertedPointA.x = tempPointF.x;
+            convertedPointA.y = tempPointF.y;
+            tempPointF = vp.worldToScreenPoint(player.getB().x, player.getB().y);
+            convertedPointB.x = tempPointF.x;
+            convertedPointB.y = tempPointF.y;
+            tempPointF = vp.worldToScreenPoint(player.getC().x, player.getC().y);
+            convertedPointC.x = tempPointF.x;
+            convertedPointC.y = tempPointF.y;
+
+            paint.setColor(Color.argb(255,255,255,255));
+            canvas.drawLine(convertedPointA.x, convertedPointA.y,
+                    convertedPointB.x, convertedPointB.y,
+                    paint);
+
+            canvas.drawLine(convertedPointB.x, convertedPointB.y,
+                    convertedPointC.x, convertedPointC.y,
+                    paint);
+
+            canvas.drawLine(convertedPointC.x, convertedPointC.y,
+                    convertedPointA.x, convertedPointA.y,
+                    paint);
+
+            canvas.drawPoint(convertedPointA.x, convertedPointA.y, paint);
+
+            // Update all the player bullets if active
+            for (int i = 0; i < playerBullets.length; i++) {
+                if (playerBullets[i].getStatus()) {
+
+                    tempPointF = vp.worldToScreenPoint(
+                            playerBullets[i].getPoint().x, playerBullets[i].getPoint().y);
+
+                    canvas.drawRect(tempPointF.x, tempPointF.y,
+                            tempPointF.x+4, tempPointF.y+4, paint);
+                }
+            }
+
+            // Draw some debugging info
+            // Choose the brush color for drawing
+            paint.setColor(Color.argb(255,255,255,255));
+            paint.setTextSize(20);
+            canvas.drawText("FPS = " + fps, 20, 70, paint);
+
+            // Draw the floor
+            convertedRect = vp.worldToScreen(
+                    -10,
+                    groundLevel,
+                    targetWorldWidth + 10,
+                    targetWorldHeight - groundLevel
+            );
+
+            paint.setColor(Color.argb(255,5,66,9));
+            canvas.drawRect(convertedRect, paint);
+
+            // Change paint color
+            // Low alpha value to make buttons transparent
+            paint.setColor(Color.argb(80,255,255,255));
+
+            for (Rect rect : hud.currentButtonList) {
+                RectF rf = new RectF(rect.left, rect.top, rect.right, rect.bottom);
+                canvas.drawRoundRect(rf, 15f, 15f, paint);
+            }
+
+            // Draw everything to the screen
+            ourHolder.unlockCanvasAndPost(canvas);
         }
     }
 
