@@ -392,6 +392,7 @@ public class GameView extends SurfaceView implements Runnable {
 
             // Draw the bricks if visible
             for (int i = 0; i < numBricks; i++) {
+
                 if (!bricks[i].isClipped()) {
 
                     // Draw the bricks
