@@ -40,20 +40,21 @@ public class Viewport {
         currentViewportWorldCentre.y = y;
     }
 
-    public RectF worldToScreen(float objectX, float objectY, float objectWidth, float objectHeight) {
-        int left = (int)(screenCentreX - ((currentViewportWorldCentre.x - objectX) * pixelsPerMetreX));
-        int top = (int)(screenCentreY - ((currentViewportWorldCentre.y - objectY) * pixelsPerMetreY));
-        int right = (int)(left + (objectWidth * pixelsPerMetreX));
-        int bottom = (int)(top + (objectHeight * pixelsPerMetreY));
+    public RectF worldToScreen(float objectX, float objectY, float objectWidth, float objectHeight){
+        int left = (int) (screenCentreX - ((currentViewportWorldCentre.x - objectX) * pixelsPerMetreX));
+        int top =  (int) (screenCentreY - ((currentViewportWorldCentre.y - objectY) * pixelsPerMetreY));
+        int right = (int) (left + (objectWidth * pixelsPerMetreX));
+        int bottom = (int) (top + (objectHeight * pixelsPerMetreY));
         convertedRect.set(left, top, right, bottom);
 
         return convertedRect;
     }
 
-    public PointF worldToScreenPoint(float objectX, float objectY) {
-        int left = (int)(screenCentreX - ((currentViewportWorldCentre.x - objectX) * pixelsPerMetreX));
-        int top = (int)(screenCentreY - ((currentViewportWorldCentre.y - objectY) * pixelsPerMetreY));
-
+    public PointF worldToScreenPoint(float objectX, float objectY){
+        int left = (int) (screenCentreX - ((currentViewportWorldCentre.x - objectX) * pixelsPerMetreX));
+        int top =  (int) (screenCentreY - ((currentViewportWorldCentre.y - objectY) * pixelsPerMetreY));
+        //Log.d("vp left=",""+left);
+        //Log.d("vp top=",""+top);
         convertedPoint.x = left;
         convertedPoint.y = top;
 
@@ -61,18 +62,18 @@ public class Viewport {
     }
 
     public boolean clipObjects(float objectX, float objectY, float objectWidth, float objectHeight) {
-
         boolean clipped = true;
 
         if (objectX - objectWidth < currentViewportWorldCentre.x + (metresToShowX / 2)) {
-            if (objectX + objectWidth > currentViewportWorldCentre.x - (metresToShowX / 2)) {
-                if (objectY - objectHeight < currentViewportWorldCentre.y + (metresToShowY / 2)) {
+            if (objectX + objectWidth> currentViewportWorldCentre.x - (metresToShowX / 2)) {
+                if (objectY - objectHeight< currentViewportWorldCentre.y + (metresToShowY / 2)) {
                     if (objectY + objectHeight > currentViewportWorldCentre.y - (metresToShowY / 2)){
                         clipped = false;
                     }
+
                 }
             }
         }
-        return  clipped;
+        return clipped;
     }
 }

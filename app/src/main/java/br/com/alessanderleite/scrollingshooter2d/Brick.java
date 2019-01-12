@@ -33,23 +33,23 @@ public class Brick {
         float brickYPadding = .0f;
 
         rect = new RectF(
-                (columnNum * (brickXPadding + brickWidth +
+                (columnNum * (brickXPadding  + brickWidth +
                         brickXPadding) + brickXPadding),
                 ((rowNum * (brickYPadding + brickHeight +
-                        brickYPadding)) + brickYPadding),
-                (columnNum * (brickXPadding + brickWidth +
+                        brickYPadding) ) + brickYPadding),
+                (columnNum * (brickXPadding  + brickWidth +
                         brickXPadding) + brickXPadding + brickWidth),
                 ((rowNum * (brickYPadding + brickHeight +
-                        brickYPadding)) + brickYPadding + brickHeight)
+                        brickYPadding) ) + brickYPadding + brickHeight)
         );
 
         // Assign a color
-        if (random.nextInt(9) == 0) {
+        if(random.nextInt(9) == 0){
             // Vary the alpha for effect
             int alpha = random.nextInt(256);
-            color = Color.argb(alpha,255,255,0);
-        } else {
-            color = Color.argb(255,0,0,0);
+            color = Color.argb(alpha, 255, 255, 0);
+        }else{
+            color = Color.argb(255, 0, 0, 0);
         }
     }
 
